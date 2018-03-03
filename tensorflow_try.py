@@ -10,19 +10,19 @@ import numpy as np
 import tensorflow as tf
 
 # Data sets
-IRIS_TRAINING = "tmp/train_facebook5.csv"
+TRAINING = "tmp/train_facebook5.csv"
 
-IRIS_TEST = "tmp/train_facebook5.csv"
+TEST = "tmp/train_facebook5.csv"
 
 def main():
   #https://cloud.tencent.com/developer/article/1005381   csv文件首行前两列分别表示数据组的个数和每个数据组的特征数
   # Load datasets.
   training_set = tf.contrib.learn.datasets.base.load_csv_with_header(
-      filename=IRIS_TRAINING,
+      filename=TRAINING,
       target_dtype=np.int,
       features_dtype=np.float32)
   test_set = tf.contrib.learn.datasets.base.load_csv_with_header(
-      filename=IRIS_TEST,
+      filename=TEST,
       target_dtype=np.int,
       features_dtype=np.float32)
 

@@ -1,9 +1,3 @@
-# Input: C:/Users/Yanyan/Documents/Visual Studio 2013/Projects/StressTransGraphVis/data/bcspwr10/bcspwr10.txt
-# Nodes: 5300    Edges: 8271
-# Algoritm: Clauset-Newman-Moore
-# Modularity: 0.921425
-# Communities: 8
-# NId	CommunityId
 1244	0
 0	0
 2318	0

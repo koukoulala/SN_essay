@@ -22,7 +22,6 @@ def read_file(Lfile,Cfile):
 def find_stru(L,n,C,Tnode):
     #新建一个n行4列的零矩阵
     W=zeros([n,3],int16)
-    WW=zeros(n,int)
 
     #新建一个内嵌列表，维数为n，每个内部列表长度未知,l=[[],[],[],[],[]]
     l=[];i=0;
@@ -31,11 +30,11 @@ def find_stru(L,n,C,Tnode):
         i+=1
     for i in L:
         if i[1] == Tnode:
-        # 把153的直接前驱点记录在不同的communite里面
+        # 把直接前驱点记录在不同的communite里面
             l[C[i[0]]].append(i[0])
     #print("目标节点",Tnode,"的直接前驱情况:",l)
 
-    #一个类别一个类别的来计算不同结构数目，存储在W中,WW中是邻居节点的总个数
+    #一个类别一个类别的来计算不同结构数目，存储在W中,W[k][0]中是邻居节点的总个数
     k=0
     for ll in l:
         if ll!=[]:
@@ -54,6 +53,6 @@ def find_stru(L,n,C,Tnode):
                     #W[k][0] += 1;
         k+=1
 
-    #print("目标节点",Tnode,"有",n,"种类别，每个类别3种结构数目:")
-    #print(W)
+    print("目标节点",Tnode,"有",n,"种类别，每个类别3种结构数目:")
+    print(W)
     return W
