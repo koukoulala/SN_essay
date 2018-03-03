@@ -10,9 +10,9 @@ import numpy as np
 import tensorflow as tf
 
 # Data sets
-TRAINING = "tmp/fpga/train.csv"
+TRAINING = "tmp/bcspwr/train.csv"
 
-TEST = "tmp/fpga/test.csv"
+TEST = "tmp/bcspwr/test.csv"
 
 def main():
   #https://cloud.tencent.com/developer/article/1005381   csv文件首行前两列分别表示数据组的个数和每个数据组的特征数
@@ -27,10 +27,10 @@ def main():
       features_dtype=np.float32)
 
   # Specify that all features have real-value data
-  feature_columns = [tf.contrib.layers.real_valued_column("", dimension=48)]
+  feature_columns = [tf.contrib.layers.real_valued_column("", dimension=24)]
 
   # Build 3 layer DNN with 10, 20, 10 units respectively.
-  classifier = tf.contrib.learn.DNNClassifier(feature_columns=feature_columns,hidden_units=[10, 20, 10],n_classes=16,model_dir="/tmp/2")
+  classifier = tf.contrib.learn.DNNClassifier(feature_columns=feature_columns,hidden_units=[10, 20, 10],n_classes=8,model_dir="/tmp/t0")
 
   # Define the training inputs
   def get_train_inputs():
@@ -38,22 +38,24 @@ def main():
     y = tf.constant(training_set.target)
     return x, y
 
-  # Fit model.
-  classifier.fit(input_fn=get_train_inputs, steps=2000)
-
-  # Define the test inputs
+    # Define the test inputs
   def get_test_inputs():
     x = tf.constant(test_set.data)
     y = tf.constant(test_set.target)
     return x, y
 
-  #输出训练集准确度，看看是否有过拟合现象
-  accuracy_score = classifier.evaluate(input_fn=get_train_inputs, steps=1)["accuracy"]
-  print("\nTrain Accuracy: {0:f}\n".format(accuracy_score))
+  for i in range(20):
+    # Fit model.
+    classifier.fit(input_fn=get_train_inputs, steps=200)
 
-  # Evaluate accuracy.
-  accuracy_score = classifier.evaluate(input_fn=get_test_inputs,steps=1)["accuracy"]
-  print("\nTest Accuracy: {0:f}\n".format(accuracy_score))
+      # 输出训练集准确度，看看是否有过拟合现象
+    accuracy_score = classifier.evaluate(input_fn=get_train_inputs, steps=1)["accuracy"]
+    print("第",i,"次的Train Accuracy: {0:f}\n".format(accuracy_score))
+
+    # Evaluate accuracy.
+    accuracy_score = classifier.evaluate(input_fn=get_test_inputs, steps=1)["accuracy"]
+    print("第",i,"次的Test Accuracy: {0:f}\n".format(accuracy_score))
+
 
 if __name__ == "__main__":
     main()
