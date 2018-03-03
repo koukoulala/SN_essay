@@ -10,9 +10,9 @@ import numpy as np
 import tensorflow as tf
 
 # Data sets
-IRIS_TRAINING = "tmp/facebook_train.csv"
+IRIS_TRAINING = "tmp/train_facebook5.csv"
 
-IRIS_TEST = "tmp/facebook_test.csv"
+IRIS_TEST = "tmp/train_facebook5.csv"
 
 def main():
   #https://cloud.tencent.com/developer/article/1005381   csv文件首行前两列分别表示数据组的个数和每个数据组的特征数
@@ -39,7 +39,7 @@ def main():
     return x, y
 
   # Fit model.
-  classifier.fit(input_fn=get_train_inputs, steps=2000)
+  classifier.fit(input_fn=get_train_inputs, steps=200)
 
   # Define the test inputs
   def get_test_inputs():

@@ -2,8 +2,6 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/../masteringDM-master/.idea/masteringDM-master.iml" filepath="$PROJECT_DIR$/../masteringDM-master/.idea/masteringDM-master.iml" />
-      <module fileurl="file://$PROJECT_DIR$/../pachong/.idea/pachong.iml" filepath="$PROJECT_DIR$/../pachong/.idea/pachong.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/social_network.iml" filepath="$PROJECT_DIR$/.idea/social_network.iml" />
       <module fileurl="file://D:/project/testsvm2/.idea/testsvm.iml" filepath="D:/project/testsvm2/.idea/testsvm.iml" />
     </modules>
