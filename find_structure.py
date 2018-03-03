@@ -53,6 +53,6 @@ def find_stru(L,n,C,Tnode):
                     #W[k][0] += 1;
         k+=1
 
-    print("目标节点",Tnode,"有",n,"种类别，每个类别3种结构数目:")
-    print(W)
+    #print("目标节点",Tnode,"有",n,"种类别，每个类别3种结构数目:")
+    #print(W)
     return W

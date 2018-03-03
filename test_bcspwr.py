@@ -4,8 +4,8 @@ from sklearn.cross_validation import train_test_split
 Lfile='data/bcspwr10/bcspwr10.txt';
 Cfile='data/bcspwr10/bcspwr10_communities.txt'
 L,C,LL=read_file(Lfile,Cfile)
-print("所有的节点，已去重:")
-print(LL)
+#print("所有的节点，已去重:")
+#print(LL)
 
 #计算图有几个Communites
 n=0;k=[];
