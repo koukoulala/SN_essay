@@ -1,9 +1,3 @@
-# Input: C:/Users/Yanyan/Documents/Visual Studio 2013/Projects/StressTransGraphVis/data/fpga_dcop1220/fpga_dcop1220.txt
-# Nodes: 1220    Edges: 2810
-# Algoritm: Clauset-Newman-Moore
-# Modularity: 0.864395
-# Communities: 16
-# NId CommunityId
 223	0
 0	0
 226	0

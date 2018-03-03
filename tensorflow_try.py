@@ -10,9 +10,9 @@ import numpy as np
 import tensorflow as tf
 
 # Data sets
-TRAINING = "tmp/bcspwr/train1.csv"
+TRAINING = "tmp/fpga/train.csv"
 
-TEST = "tmp/bcspwr/test1.csv"
+TEST = "tmp/fpga/test.csv"
 
 def main():
   #https://cloud.tencent.com/developer/article/1005381   csv文件首行前两列分别表示数据组的个数和每个数据组的特征数
@@ -27,10 +27,10 @@ def main():
       features_dtype=np.float32)
 
   # Specify that all features have real-value data
-  feature_columns = [tf.contrib.layers.real_valued_column("", dimension=8)]
+  feature_columns = [tf.contrib.layers.real_valued_column("", dimension=48)]
 
   # Build 3 layer DNN with 10, 20, 10 units respectively.
-  classifier = tf.contrib.learn.DNNClassifier(feature_columns=feature_columns,hidden_units=[10, 20, 10],n_classes=8,model_dir="/tmp/1")
+  classifier = tf.contrib.learn.DNNClassifier(feature_columns=feature_columns,hidden_units=[10, 20, 10],n_classes=16,model_dir="/tmp/2")
 
   # Define the training inputs
   def get_train_inputs():
@@ -47,21 +47,13 @@ def main():
     y = tf.constant(test_set.target)
     return x, y
 
+  #输出训练集准确度，看看是否有过拟合现象
+  accuracy_score = classifier.evaluate(input_fn=get_train_inputs, steps=1)["accuracy"]
+  print("\nTrain Accuracy: {0:f}\n".format(accuracy_score))
+
   # Evaluate accuracy.
   accuracy_score = classifier.evaluate(input_fn=get_test_inputs,steps=1)["accuracy"]
   print("\nTest Accuracy: {0:f}\n".format(accuracy_score))
-'''
-  # Classify two new flower samples.
-  def new_samples():
-    return np.array(
-      [[6.4, 3.2, 4.5, 1.5],
-       [5.8, 3.1, 5.0, 1.7]], dtype=np.float32)
 
-  predictions = list(classifier.predict(input_fn=new_samples))
-
-  print(
-      "New Samples, Class Predictions:    {}\n"
-      .format(predictions))
-'''
 if __name__ == "__main__":
     main()
