@@ -10,9 +10,9 @@ import numpy as np
 import tensorflow as tf
 
 # Data sets
-TRAINING = "tmp/bcspwr/train.csv"
+TRAINING = "tmp/bcspwr/train1.csv"
 
-TEST = "tmp/bcspwr/test.csv"
+TEST = "tmp/bcspwr/test1.csv"
 
 def main():
   #https://cloud.tencent.com/developer/article/1005381   csv文件首行前两列分别表示数据组的个数和每个数据组的特征数
@@ -27,10 +27,10 @@ def main():
       features_dtype=np.float32)
 
   # Specify that all features have real-value data
-  feature_columns = [tf.contrib.layers.real_valued_column("", dimension=24)]
+  feature_columns = [tf.contrib.layers.real_valued_column("", dimension=8)]
 
   # Build 3 layer DNN with 10, 20, 10 units respectively.
-  classifier = tf.contrib.learn.DNNClassifier(feature_columns=feature_columns,hidden_units=[10, 20, 10],n_classes=8,model_dir="/tmp/t0")
+  classifier = tf.contrib.learn.DNNClassifier(feature_columns=feature_columns,hidden_units=[10, 20, 10],n_classes=8,model_dir="/tmp/t1")
 
   # Define the training inputs
   def get_train_inputs():
