@@ -12,7 +12,7 @@ def test_para(filepath,w,n):
     #features是特征列，true_label是节点真实类别，pre_labels是预测类别，Y是每个节点每种类别的可能性，其中最大可能的类别放入pre_labels
     features=data_set.data
     true_labels=data_set.target
-    pre_labels=np.zeros(len(features))
+    pre_labels=np.zeros(len(features),int)
     Y=np.zeros([len(features),n],int)
     #ma是一行中最大的数,k代表ma的index，j代表类别
     for i in range(0,len(features)):
@@ -23,15 +23,17 @@ def test_para(filepath,w,n):
             if num>ma:
                 ma=num
                 k=j
-        #print(Y[i]," ",k)
+        print(Y[i]," ",k)
         pre_labels[i]=k
         if pre_labels[i] != true_labels[i]:
             err+=1
             fal.append(i)
-    print(err)
+    print("错误的总数目：",err)
+    print("错误的列分别是：",fal)
+    print("被错误的预测为：",list(pre_labels))
     acc=1-(err/len(features))
     return acc
 
 if __name__ == "__main__":
-    acc=test_para("tmp/bcspwr/test.csv",[1,1,1],8)
-    print(acc)
+    acc=test_para("tmp/bcspwr/test.csv",[1,0,0],8)
+    print("准确率为：",acc)
