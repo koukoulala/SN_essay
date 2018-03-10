@@ -19,8 +19,8 @@ def read_img(path):
     imgs = []
     labels = []
     for idx, folder in enumerate(cate):
+        print('reading the images from',folder)
         for im in glob.glob(folder + '/*.jpg'):
-            print('reading the images:%s' % (im))
             img = io.imread(im)
             img = transform.resize(img, (w, h))
             imgs.append(img)

@@ -8,7 +8,7 @@ from sklearn.model_selection import train_test_split, KFold, cross_val_score
 from sklearn.preprocessing import LabelEncoder
 
 # load dataset
-dataframe = pd.read_csv("iris.csv", header=None)
+dataframe = pd.read_csv("iris/iris.csv", header=None)
 dataset = dataframe.values
 X = dataset[:, 0:4].astype(float)
 Y = dataset[:, 4]
