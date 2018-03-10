@@ -12,8 +12,9 @@ with open('tmp/with_node/bcspwr_node.csv','r') as csvfile:
         len_csv=len(line)
         node=line[0]
         label=line[len_csv-1]
+        #把一行数据转换成n*3的图片
         for i in range(1,len_csv-1):
-            node_img.append(line[i])
+            node_img.append(int(line[i])*10)
         #print(node_img)
         tmp=np.array(node_img,dtype='float')
         img=tmp.reshape([8,3])
