@@ -95,6 +95,7 @@ def minibatches(inputs=None, targets=None, batch_size=None, shuffle=False):
 
 n_epoch = 1000
 batch_size = 64
+max_acc=0;k_epoch=0;     #最大的准确率以及第几次迭代
 sess = tf.InteractiveSession()
 sess.run(tf.global_variables_initializer())
 for epoch in range(n_epoch):
@@ -107,19 +108,24 @@ for epoch in range(n_epoch):
         train_loss += err;
         train_acc += ac;
         n_batch += 1
-    if epoch%20==0:
-        print("第",epoch,"次结果：")
-        print("   train loss: %f" % (train_loss / n_batch))
-        print("   train acc: %f" % (train_acc / n_batch))
 
-        # validation
-        val_loss, val_acc, n_batch = 0, 0, 0
-        for x_val_a, y_val_a in minibatches(x_val, y_val, batch_size, shuffle=False):
-            err, ac = sess.run([loss, acc], feed_dict={x: x_val_a, y_: y_val_a})
-            val_loss += err;
-            val_acc += ac;
-            n_batch += 1
-        print("   validation loss: %f" % (val_loss / n_batch))
-        print("   validation acc: %f" % (val_acc / n_batch))
+    if train_acc/n_batch>max_acc:
+        max_acc=train_acc/n_batch
+        k_epoch=epoch
 
+    print("第",epoch,"次结果：")
+    print("   train loss: %f" % (train_loss / n_batch))
+    print("   train acc: %f" % (train_acc / n_batch))
+
+    # validation
+    val_loss, val_acc, n_batch = 0, 0, 0
+    for x_val_a, y_val_a in minibatches(x_val, y_val, batch_size, shuffle=False):
+        err, ac = sess.run([loss, acc], feed_dict={x: x_val_a, y_: y_val_a})
+        val_loss += err;
+        val_acc += ac;
+        n_batch += 1
+    print("   validation loss: %f" % (val_loss / n_batch))
+    print("   validation acc: %f" % (val_acc / n_batch))
+
+print("第",k_epoch ,"次迭代时达到最大准确率为：",max_acc)
 sess.close()
