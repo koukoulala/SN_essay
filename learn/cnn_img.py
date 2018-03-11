@@ -51,7 +51,7 @@ x = tf.placeholder(tf.float32, shape=[None, w, h, c], name='x')
 y_ = tf.placeholder(tf.int32, shape=[None, ], name='y_')
 
 # 第一个卷积层（100——>50)
-conv1 = tf.layers.conv2d(inputs=x, filters=32, kernel_size=[5, 5], padding="same", activation=tf.nn.relu,
+conv1 = tf.layers.conv2d(inputs=x, filters=32, kernel_size=[5, 5], padding="same", activation=tf.nn.relu,name="conv1",
                          kernel_initializer=tf.truncated_normal_initializer(stddev=0.01))
 pool1 = tf.layers.max_pooling2d(inputs=conv1, pool_size=[2, 2], strides=2)
 
@@ -122,6 +122,9 @@ for epoch in range(n_epoch):
         n_batch += 1
     print("   train loss: %f" % (train_loss / n_batch))
     print("   train acc: %f" % (train_acc / n_batch))
+    gr = tf.get_default_graph()
+    conv1_kernel_val = gr.get_tensor_by_name('conv1/kernel:0').eval()
+    print(conv1_kernel_val)
 
     # validation
     val_loss, val_acc, n_batch = 0, 0, 0

@@ -52,8 +52,8 @@ y_val = label[s:]
 x = tf.placeholder(tf.float32, shape=[None, w, h,c], name='x')
 y_ = tf.placeholder(tf.int32, shape=[None, ], name='y_')
 
-# 第一个卷积层（8*3*1——>8*1*1),1个卷积核，步长是1
-conv1 = tf.layers.conv2d(inputs=x, filters=1, kernel_size=[1,3], activation=tf.nn.relu,strides=1,
+# 第一个卷积层（8*3*1——>8*1*1),1个卷积核，步长是1,从截断的正态分布中输出随机值
+conv1 = tf.layers.conv2d(inputs=x, filters=1, kernel_size=[1,3], activation=tf.nn.relu,strides=1,name="conv1",
                          kernel_initializer=tf.truncated_normal_initializer(stddev=0.01))
 #pool1 = tf.layers.max_pooling2d(inputs=conv1, pool_size=[2, 2], strides=2)
 
@@ -96,6 +96,7 @@ def minibatches(inputs=None, targets=None, batch_size=None, shuffle=False):
 n_epoch = 1000
 batch_size = 64
 max_acc=0;k_epoch=0;     #最大的准确率以及第几次迭代
+save_csv=[]
 sess = tf.InteractiveSession()
 sess.run(tf.global_variables_initializer())
 for epoch in range(n_epoch):
@@ -109,6 +110,11 @@ for epoch in range(n_epoch):
         train_acc += ac;
         n_batch += 1
 
+    #打印出每次卷积层的kernal值
+    gr = tf.get_default_graph()
+    conv1_kernel_val = gr.get_tensor_by_name('conv1/kernel:0').eval()
+    print(conv1_kernel_val)
+
     if train_acc/n_batch>max_acc:
         max_acc=train_acc/n_batch
         k_epoch=epoch
@@ -116,6 +122,13 @@ for epoch in range(n_epoch):
     print("第",epoch,"次结果：")
     print("   train loss: %f" % (train_loss / n_batch))
     print("   train acc: %f" % (train_acc / n_batch))
+
+    '''
+    if epoch%10==0:
+        #每10个保存一下模型
+        saver=tf.train.Saver(write_version=tf.train.SaverDef.V2)
+        saver.save(sess,"model/"+str(epoch)+".ckpt",global_step=0)
+        '''
 
     # validation
     val_loss, val_acc, n_batch = 0, 0, 0
@@ -126,6 +139,9 @@ for epoch in range(n_epoch):
         n_batch += 1
     print("   validation loss: %f" % (val_loss / n_batch))
     print("   validation acc: %f" % (val_acc / n_batch))
+
+    #把每次运行的epoch,acc,loss,valdation acc,validation loss,kernal保存到一个列表，用于写入csv文件
+    
 
 print("第",k_epoch ,"次迭代时达到最大准确率为：",max_acc)
 sess.close()
