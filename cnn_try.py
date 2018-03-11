@@ -1,4 +1,5 @@
 from skimage import io, transform
+from find_structure import *
 import glob
 import os
 import tensorflow as tf
@@ -93,7 +94,7 @@ def minibatches(inputs=None, targets=None, batch_size=None, shuffle=False):
 
 # 训练和测试数据，可将n_epoch设置更大一些
 
-n_epoch = 1000
+n_epoch = 500
 batch_size = 64
 max_acc=0;k_epoch=0;     #最大的准确率以及第几次迭代
 save_csv=[]
@@ -115,20 +116,12 @@ for epoch in range(n_epoch):
     conv1_kernel_val = gr.get_tensor_by_name('conv1/kernel:0').eval()
     print(conv1_kernel_val)
 
-    if train_acc/n_batch>max_acc:
-        max_acc=train_acc/n_batch
-        k_epoch=epoch
-
+    #计算训练准确率和误差
+    train_loss_ave = train_loss / n_batch
+    train_acc_ave=train_acc/n_batch
     print("第",epoch,"次结果：")
-    print("   train loss: %f" % (train_loss / n_batch))
-    print("   train acc: %f" % (train_acc / n_batch))
-
-    '''
-    if epoch%10==0:
-        #每10个保存一下模型
-        saver=tf.train.Saver(write_version=tf.train.SaverDef.V2)
-        saver.save(sess,"model/"+str(epoch)+".ckpt",global_step=0)
-        '''
+    print("   train loss: %f" % train_loss_ave)
+    print("   train acc: %f" % train_acc_ave)
 
     # validation
     val_loss, val_acc, n_batch = 0, 0, 0
@@ -137,11 +130,21 @@ for epoch in range(n_epoch):
         val_loss += err;
         val_acc += ac;
         n_batch += 1
-    print("   validation loss: %f" % (val_loss / n_batch))
-    print("   validation acc: %f" % (val_acc / n_batch))
 
-    #把每次运行的epoch,acc,loss,valdation acc,validation loss,kernal保存到一个列表，用于写入csv文件
-    
+    # 计算交叉验证的准确率和误差
+    loss_val = val_loss / n_batch
+    acc_val = val_acc / n_batch
+    print("   validation loss: %f" % loss_val)
+    print("   validation acc: %f" % acc_val)
+    #保存下交叉验证的正确率最大值
+    if acc_val>max_acc:
+        max_acc=acc_val
+        k_epoch=epoch
+
+    #把每次运行的参数保存到一个列表，用于写入csv文件
+    tmpL=[epoch,train_loss_ave,train_acc_ave,loss_val,acc_val,conv1_kernel_val[0][0][0][0],conv1_kernel_val[0][1][0][0],conv1_kernel_val[0][2][0][0]]
+    save_csv.append(tmpL)
 
 print("第",k_epoch ,"次迭代时达到最大准确率为：",max_acc)
+savetxt("tmp/model_save.csv",save_csv,fmt="%f",delimiter=",")
 sess.close()
