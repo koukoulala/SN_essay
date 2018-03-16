@@ -2,6 +2,7 @@ import tensorflow as tf
 import numpy as np
 from numpy import *
 
+#整理一下csv文件，将cnn中得到的3个权重在整个数据集上测试准确率，并将分类出错的情况保存在csv中
 def test_para(filepath,w,n):
     #参数：文件位置，3种结构影响度构成的列表，图中类别数目，acc是准确率，err是分类错误的个数，fal是错误的行数
     acc=0;err=0;fal=[]
@@ -36,5 +37,5 @@ def test_para(filepath,w,n):
     return acc
 
 if __name__ == "__main__":
-    acc=test_para("tmp/with_node/bcspwr_node_test.csv",[0.86749744,1.0554432,0.38650352],8)
+    acc=test_para("tmp/bcspwr_node_test.csv",[0.86749744,1.0554432,0.38650352],8)
     print("准确率为：",acc)

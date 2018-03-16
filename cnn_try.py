@@ -6,13 +6,14 @@ import tensorflow as tf
 import numpy as np
 import time
 
+#使用cnn进行训练，得到准确率最高时的3个权重
+
 path = 'img/'
 
 # 将所有的图片resize成100*100
 w = 8
 h = 3
 c = 1            #c是指图像的通道数,灰度图像是单通道的
-
 
 # 读取图片
 def read_img(path):

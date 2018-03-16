@@ -1,5 +1,4 @@
 from find_structure import *
-from sklearn.cross_validation import train_test_split
 
 Lfile='data/bcspwr10/bcspwr10.txt';
 Cfile='data/bcspwr10/bcspwr10_communities.txt'
@@ -14,7 +13,7 @@ for key in C:
 print("图的commnunite类型：",k)
 print("图的commnunite数目=",n)
 
-#把3种邻居结构分别保存到3个csv文件中，把总的保存到第四个
+#把3邻居结构数目保存到csv文件中
 train_node=LL
 train_data=zeros([len(train_node),n*3],int)
 node_name=zeros(len(train_data),int) #节点名称，放在第一列
@@ -33,4 +32,4 @@ train_data=c_[train_data,label_data]
 train_data=c_[node_name,train_data]
 print(train_data)
 
-savetxt("tmp/with_node/bcspwr_node.csv",train_data,fmt="%d",delimiter=",")
+savetxt("tmp/bcspwr_node.csv",train_data,fmt="%d",delimiter=",")

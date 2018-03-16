@@ -2,7 +2,9 @@ import numpy as np
 import os
 from PIL import Image
 
-with open('tmp/with_node/bcspwr_node.csv','r') as csvfile:
+#把节点邻居结构的csv文件转换成一个节点一个image，不同类别放在不同文件夹中，每个节点都是n行3列的图片
+#注意，将数目都*10，防止梯度消失
+with open('tmp/bcspwr_node.csv','r') as csvfile:
     for line in csvfile.readlines():
         node_img = []
         img = []

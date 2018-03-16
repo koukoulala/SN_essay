@@ -1,8 +1,5 @@
 from numpy import *
 
-#寻找那10%的节点的邻居节点结构，以一个节点为例子，153来测试，度数最大
-# 其communite=3(并且为了有w4的结构，手动加了（35,33）边）
-
 #读取边表文件和communite放入list中
 def read_file(Lfile,Cfile):
     L=[];LL=set();C={};
