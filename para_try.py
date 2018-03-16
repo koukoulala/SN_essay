@@ -35,5 +35,5 @@ def test_para(filepath,w,n):
     return acc
 
 if __name__ == "__main__":
-    acc=test_para("tmp/bcspwr/test.csv",[1.240955,0.424842,0.675009],8)
+    acc=test_para("tmp/bcspwr/test.csv",[0.86749744,1.0554432,0.38650352],8)
     print("准确率为：",acc)
