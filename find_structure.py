@@ -38,7 +38,7 @@ def find_stru(L,n,C,Tnode):
     k=0
     for ll in l:
         if ll!=[]:
-            W[k][0]=len(ll)
+            #W[k][0]=len(ll)
             for i in ll:
                 flag=0; #如果flag=0，也就是不存在w2结构
                 for j in L:
@@ -49,8 +49,8 @@ def find_stru(L,n,C,Tnode):
                             W[k][2] += 1;
                         else:
                             W[k][1] += 1;
-                #if flag == 0:
-                    #W[k][0] += 1;
+                if flag == 0:
+                    W[k][0] += 1;
         k+=1
 
     #print("目标节点",Tnode,"有",n,"种类别，每个类别3种结构数目:")
