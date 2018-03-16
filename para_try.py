@@ -1,6 +1,6 @@
 import tensorflow as tf
 import numpy as np
-import csv
+from numpy import *
 
 def test_para(filepath,w,n):
     #参数：文件位置，3种结构影响度构成的列表，图中类别数目，acc是准确率，err是分类错误的个数，fal是错误的行数
@@ -10,29 +10,29 @@ def test_para(filepath,w,n):
         target_dtype=np.int,
         features_dtype=np.int)
 
-    #features是特征列，true_label是节点真实类别，pre_labels是预测类别，Y是每个节点每种类别的可能性，其中最大可能的类别放入pre_labels
-    features=data_set.data
+    #data是所有数据，true_label是节点真实类别，pre_labels是预测类别，Y是每个节点每种类别的可能性，其中最大可能的类别放入pre_labels
+    data=data_set.data
     true_labels=data_set.target
-    pre_labels=np.zeros(len(features),int)
-    Y=np.zeros([len(features),n],int)
+    pre_labels=np.zeros(len(data),int)
+    Y=np.zeros([len(data),n],int)
     #ma是一行中最大的数,k代表ma的index，j代表类别
-    for i in range(0,len(features)):
+    for i in range(0,len(data)):
         ma=-100000;k=0
         for j in range(n):
-            num=features[i][j*3]*w[0]+features[i][j*3+1]*w[1]+features[i][j*3+2]*w[2]
+            num=data[i][j*3]*w[0]+data[i][j*3+1]*w[1]+data[i][j*3+2]*w[2]
             Y[i][j]=num
             if num>ma:
                 ma=num
                 k=j
-        print(Y[i]," ",k)
+        #print(Y[i]," ",k)
         pre_labels[i]=k
         if pre_labels[i] != true_labels[i]:
             err+=1
-            fal.append(i)
+            wrong=[i,true_labels[i],pre_labels[i]]    #记录下第几行被分错，真实类别与被预测的类别
+            fal.append(wrong)
     print("错误的总数目：",err)
-    print("错误的列分别是：",fal)
-    print("被错误的预测为：",list(pre_labels))
-    acc=1-(err/len(features))
+    acc=1-(err/len(data))
+    savetxt("tmp/para_try.csv", fal, fmt="%d", delimiter=",")
     return acc
 
 if __name__ == "__main__":
