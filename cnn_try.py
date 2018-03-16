@@ -111,10 +111,10 @@ for epoch in range(n_epoch):
         train_acc += ac;
         n_batch += 1
 
-    #打印出每次卷积层的kernal值
+    #得到每次卷积层的kernal值
     gr = tf.get_default_graph()
     conv1_kernel_val = gr.get_tensor_by_name('conv1/kernel:0').eval()
-    print(conv1_kernel_val)
+    #print(conv1_kernel_val)
 
     #计算训练准确率和误差
     train_loss_ave = train_loss / n_batch
@@ -136,15 +136,17 @@ for epoch in range(n_epoch):
     acc_val = val_acc / n_batch
     print("   validation loss: %f" % loss_val)
     print("   validation acc: %f" % acc_val)
-    #保存下交叉验证的正确率最大值
+    #保存下交叉验证的正确率最大值，以及此时的权重参数
     if acc_val>max_acc:
         max_acc=acc_val
         k_epoch=epoch
+        w=[conv1_kernel_val[0][0][0][0],conv1_kernel_val[0][1][0][0],conv1_kernel_val[0][2][0][0]]
 
     #把每次运行的参数保存到一个列表，用于写入csv文件
     tmpL=[epoch,train_loss_ave,train_acc_ave,loss_val,acc_val,conv1_kernel_val[0][0][0][0],conv1_kernel_val[0][1][0][0],conv1_kernel_val[0][2][0][0]]
     save_csv.append(tmpL)
 
 print("第",k_epoch ,"次迭代时达到最大准确率为：",max_acc)
+print("最大准确率时的权重值：",w[0],"  ",w[1],"    ",w[2])
 savetxt("tmp/model_save.csv",save_csv,fmt="%f",delimiter=",")
 sess.close()
