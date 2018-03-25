@@ -32,4 +32,4 @@ train_data=c_[train_data,label_data]
 train_data=c_[node_name,train_data]
 print(train_data)
 
-savetxt("tmp/bcspwr_node.csv",train_data,fmt="%d",delimiter=",")
+savetxt("result/bcspwr_node.csv",train_data,fmt="%d",delimiter=",")
