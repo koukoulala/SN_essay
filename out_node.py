@@ -1,6 +1,6 @@
 from find_structure import *
 
-Lfile='data/bcspwr10/bcspwr10.txt';
+Lfile='data/bcspwr10/bcspwr10_2.txt';
 Cfile='data/bcspwr10/bcspwr10_communities.txt'
 L,C,LL=read_file(Lfile,Cfile)
 
@@ -32,4 +32,4 @@ train_data=c_[train_data,label_data]
 train_data=c_[node_name,train_data]
 print(train_data)
 
-savetxt("result/bcspwr_node.csv",train_data,fmt="%d",delimiter=",")
+savetxt("result/bcspwr_node_2.csv",train_data,fmt="%d",delimiter=",")

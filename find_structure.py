@@ -1,12 +1,15 @@
 from numpy import *
 
-#读取边表文件和communite放入list中
+#param:Lfile为边表文件，Cfile为节点所属类别文件
+#return:L为节点对组成的List，LL是所有节点去重后的set，C是（node,communite）字典
 def read_file(Lfile,Cfile):
     L=[];LL=set();C={};
     with open(Lfile,'r')as f:
         for line in f.readlines():
             line=[int(x) for x in line.split()]
+            line2=[line[1],line[0]]
             L.append(line)
+            L.append((line2))
             for i in line:
                 LL.add(i)
     with open(Cfile,'r')as f:
@@ -15,29 +18,27 @@ def read_file(Lfile,Cfile):
             C[key]=value
     return L,C,LL
 
-#分别获得三种结构的个数,得到n行3列的二维数组，W[i][j]=k代表Communite=i的节点的wj结构有k个
+#param:L是节点对list，n是communite的数目，C是（node,communite）字典，Tnode是目标节点
+#return:W矩阵，W[i][j]=k代表目标节点的邻居类别=i的节点的wj结构有k个，n行3列的二维数组
 def find_stru(L,n,C,Tnode):
-    #新建一个n行4列的零矩阵
     W=zeros([n,3],int16)
-
-    #新建一个内嵌列表，维数为n，每个内部列表长度未知,l=[[],[],[],[],[]]
+    #l为目标节点的不同类别的直接前驱点
     l=[];i=0;
     while i!=n:
         l.append([])
         i+=1
     for i in L:
         if i[1] == Tnode:
-        # 把直接前驱点记录在不同的communite里面
             l[C[i[0]]].append(i[0])
     #print("目标节点",Tnode,"的直接前驱情况:",l)
 
-    #一个类别一个类别的来计算不同结构数目，存储在W中,W[k][0]中是邻居节点的总个数
+    #一个类别一个类别的来计算不同结构数目
     k=0
     for ll in l:
         if ll!=[]:
             #W[k][0]=len(ll)
             for i in ll:
-                flag=0; #如果flag=0，也就是不存在w2结构
+                flag=0; #如果flag=0，也就是不存在w2结构，也就是只有w1结构
                 for j in L:
                     if j[1]==i and C[j[0]]==k: # 前驱点有前驱,且类别也相同
                         flag = 1;

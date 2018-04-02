@@ -7,7 +7,7 @@ import numpy as np
 import time
 
 #使用cnn进行训练，得到准确率最高时的3个权重
-
+start_time = time.time()
 path = 'img/'
 
 # 将所有的图片resize成100*100
@@ -55,9 +55,11 @@ x = tf.placeholder(tf.float32, shape=[None, w, h,c], name='x')
 y_ = tf.placeholder(tf.int32, shape=[None, ], name='y_')
 
 # 第一个卷积层（8*3*1——>8*1*1),1个卷积核，步长是1,从截断的正态分布中输出随机值
+#conv1 = tf.layers.conv2d(inputs=x, filters=1, kernel_size=[1,3], activation=tf.nn.relu,strides=1,name="conv1",
+#                         kernel_initializer=tf.truncated_normal_initializer(stddev=0.01))
+
 conv1 = tf.layers.conv2d(inputs=x, filters=1, kernel_size=[1,3], activation=tf.nn.relu,strides=1,name="conv1",
-                         kernel_initializer=tf.truncated_normal_initializer(stddev=0.01))
-#pool1 = tf.layers.max_pooling2d(inputs=conv1, pool_size=[2, 2], strides=2)
+                         kernel_initializer=tf.random_uniform_initializer(minval=0, maxval=None))
 
 re1 = tf.reshape(conv1, [-1, 8 * 1 * 1])
 
@@ -95,14 +97,13 @@ def minibatches(inputs=None, targets=None, batch_size=None, shuffle=False):
 
 # 训练和测试数据，可将n_epoch设置更大一些
 
-n_epoch = 200
+n_epoch = 50
 batch_size = 64
 max_acc=0;k_epoch=0;     #最大的准确率以及第几次迭代
 save_csv=[]
 sess = tf.InteractiveSession()
 sess.run(tf.global_variables_initializer())
 for epoch in range(n_epoch):
-    start_time = time.time()
 
     # training
     train_loss, train_acc, n_batch = 0, 0, 0
@@ -147,7 +148,10 @@ for epoch in range(n_epoch):
     tmpL=[epoch,train_loss_ave,train_acc_ave,loss_val,acc_val,conv1_kernel_val[0][0][0][0],conv1_kernel_val[0][1][0][0],conv1_kernel_val[0][2][0][0]]
     save_csv.append(tmpL)
 
+end_time=time.time()
+num_time=end_time-start_time;
 print("第",k_epoch ,"次迭代时达到最大准确率为：",max_acc)
 print("最大准确率时的权重值：",w[0],"  ",w[1],"    ",w[2])
-savetxt("result/model_save.csv",save_csv,fmt="%f",delimiter=",")
+print("运行总时间为：",num_time)
+savetxt("result/model_save_2.csv",save_csv,fmt="%f",delimiter=",")
 sess.close()

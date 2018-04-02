@@ -1,7 +1,7 @@
 import numpy as np
 
 def result_try(filepath,w,n):
-    # 参数：文件位置，3种结构影响度构成的列表，图中类别数目，acc是准确率，err是分类错误的个数，fal是错误的行数
+    # parm：文件位置，3种结构影响度构成的列表，图中类别数目，acc是准确率，err是分类错误的个数，fal是错误的行数
     acc = 0;
     err = 0;
     fal = []
@@ -35,10 +35,10 @@ def result_try(filepath,w,n):
 
     print("错误的总数目：", err)
     acc = 1 - (err / len(data))
-    np.savetxt("result/para_try.csv", fal, fmt="%d", delimiter=",")
+    np.savetxt("result/para_try_2.csv", fal, fmt="%d", delimiter=",")
     return acc
 
 
 if __name__ == "__main__":
-    acc = result_try("result/bcspwr_node.csv", [0.86749744, 1.0554432, 0.38650352], 8)
+    acc = result_try("result/bcspwr_node_2.csv", [1, 1, 1], 8)
     print("准确率为：", acc)

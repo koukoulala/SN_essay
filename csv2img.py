@@ -4,7 +4,7 @@ from PIL import Image
 
 #把节点邻居结构的csv文件转换成一个节点一个image，不同类别放在不同文件夹中，每个节点都是n行3列的图片
 #注意，将数目都*10，防止梯度消失
-with open('result/bcspwr_node_trick.csv','r') as csvfile:
+with open('result/bcspwr_node_2.csv','r') as csvfile:
     for line in csvfile.readlines():
         node_img = []
         img = []

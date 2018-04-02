@@ -31,11 +31,15 @@ for Trnode in train_node:
 train_data=c_[train_data,label_data]
 train_data=c_[node_name,train_data]
 
-#读取para_try.csv文件中出错的节点，让对应为正确label的w2列数目都加2，看看最后输出权重值w2会不会比较高
+#读取para_try.csv文件中出错的节点，让对应为正确label的w3列数目都加2，看看最后输出权重值w3会不会比较高
+i=0
 with open("result/para_try.csv","r") as f:
     for lines in f.readlines():
         line=lines.strip("\n").split(",")
-        train_data[int(line[0])][int(line[1])*3+2]+=2;
+        train_data[int(line[0])][int(line[1])*3+3]+=1;
+        i+=1;
+        if i==600:
+            break;
 print(train_data)
 
 savetxt("result/bcspwr_node_trick.csv",train_data,fmt="%d",delimiter=",")
